@@ -47,16 +47,16 @@ export function Navbar() {
 
          {/* Navigation Links */}
         <div className="hidden md:flex items-center space-x-8">
-          <a href="/forums" className="flex items-center space-x-2 text-white hover:text-white relative group">
+          <a href="/pages/forums" className="flex items-center space-x-2 text-white hover:text-white relative group">
             <MessageSquare className="w-5 h-5" />
             <span>Forums</span>
             <div className="absolute -bottom-3 left-0 w-full h-1 bg-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left"></div>
           </a>
-          <a href="/leaderboard" className="text-gray-400 hover:text-white relative group">
+          <a href="/pages/leaderboard" className="text-gray-400 hover:text-white relative group">
             Leaderboard
             <div className="absolute -bottom-3 left-0 w-full h-1 bg-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left"></div>
           </a>
-          <a href="/weekly-highlights" className="text-gray-400 hover:text-white relative group">
+          <a href="/pages/weekly-highlights" className="text-gray-400 hover:text-white relative group">
             Weekly Highlights
             <div className="absolute -bottom-3 left-0 w-full h-1 bg-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left"></div>
           </a>
@@ -157,13 +157,13 @@ export function Navbar() {
                 </div>
                 <DropdownMenuSeparator className="bg-gray-700" />
                 <DropdownMenuItem className="text-white hover:bg-gray-800" asChild>
-                  <Link href="/profile">Profile</Link>
+                  <Link href="/pages/profile">Profile</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="text-white hover:bg-gray-800" asChild>
-                  <Link href="/settings">Settings</Link>
+                  <Link href="/pages/settings">Settings</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="text-white hover:bg-gray-800" asChild>
-                  <Link href="/billing">Billing</Link>
+                  <Link href="/pages/billing">Billing</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="bg-gray-700" />
                 <DropdownMenuItem className="text-white hover:bg-gray-800">Log out</DropdownMenuItem>
