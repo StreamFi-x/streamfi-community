@@ -1,7 +1,6 @@
 "use client"
 import Link from "next/link"
-import { Mail, Bell, Search } from "lucide-react"
-import { useMediaQuery } from "@/hooks/use-mobile"
+import { Bell, MessageSquare, ChevronDown} from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -11,7 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -22,11 +20,10 @@ import { ScrollArea } from "@/components/ui/scroll-area"
  * Responsive design with desktop and mobile views
  */
 export function Navbar() {
-  const isMobile = useMediaQuery("(max-width: 768px)")
 
   return (
-    <header className="w-full bg-black border-b border-gray-800">
-      <div className="flex h-14 items-center justify-between px-6">
+    <nav className="bg-black border-b border-gray-800 px-4 py-3">
+      <div className="flex items-center justify-between max-w-7xl mx-auto">
         {/* Logo */}
         <div className="flex items-center">
           <Link href="/" className="flex items-center">
@@ -34,7 +31,7 @@ export function Navbar() {
           </Link>
         </div>
 
-        {/* Desktop: Centered Search Bar */}
+        {/* Desktop: Centered Search Bar
         {!isMobile && (
           <div className="flex-1 max-w-md mx-8">
             <div className="relative">
@@ -46,7 +43,24 @@ export function Navbar() {
               />
             </div>
           </div>
-        )}
+        )} */}
+
+         {/* Navigation Links */}
+        <div className="hidden md:flex items-center space-x-8">
+          <a href="/forums" className="flex items-center space-x-2 text-white hover:text-white relative group">
+            <MessageSquare className="w-5 h-5" />
+            <span>Forums</span>
+            <div className="absolute -bottom-3 left-0 w-full h-1 bg-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left"></div>
+          </a>
+          <a href="/leaderboard" className="text-gray-400 hover:text-white relative group">
+            Leaderboard
+            <div className="absolute -bottom-3 left-0 w-full h-1 bg-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left"></div>
+          </a>
+          <a href="/weekly-highlights" className="text-gray-400 hover:text-white relative group">
+            Weekly Highlights
+            <div className="absolute -bottom-3 left-0 w-full h-1 bg-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left"></div>
+          </a>
+        </div>
 
         {/* User Profile Section */}
         <div className="flex items-center space-x-4">
@@ -123,24 +137,15 @@ export function Navbar() {
             </DialogContent>
           </Dialog>
 
-          {/* Mobile: Search Icon */}
-          {isMobile && (
-            <Button variant="ghost" size="icon" className="text-white hover:bg-gray-800">
-              <Search className="h-5 w-5" />
-              <span className="sr-only">Search</span>
-            </Button>
-          )}
-
-          {/* Desktop: User Profile - Dropdown appears below this section aligned to the right */}
-          {!isMobile && (
+          {/*  User Profile - Dropdown appears below this section aligned to the right */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <div className="flex items-center space-x-3 cursor-pointer hover:bg-gray-800 rounded-lg px-2 py-1 transition-colors">
-                  <span className="text-white font-medium">Chidimma Cassandra</span>
                   <Avatar className="h-8 w-8">
                     <AvatarImage src="/Ellipse 11.png" alt="Chidimma Cassandra" />
                     <AvatarFallback className="bg-purple-600 text-white">CC</AvatarFallback>
                   </Avatar>
+                  <ChevronDown className="w-4 h-4 white" color="#ffffff" />
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56 bg-gray-900 border-gray-700" align="end" forceMount>
@@ -164,10 +169,9 @@ export function Navbar() {
                 <DropdownMenuItem className="text-white hover:bg-gray-800">Log out</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          )}
         </div>
       </div>
-    </header>
+    </nav>
   )
 }
 
