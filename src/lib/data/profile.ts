@@ -23,7 +23,7 @@ export interface UserProfile {
     id: "1",
     name: "Chidinma Cassandra Chidinma",
     username: "@Chidinma Cassandra",
-    avatar: "/api/placeholder/120/120", // This will be replaced with actual avatar
+    avatar: "/profile-photo.jpg", 
     followers: 100,
     upvotes: 100,
     badges: 8,
