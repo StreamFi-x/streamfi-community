@@ -1,7 +1,6 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
-import Navbar from "@/components/navbar";
+import type { Metadata } from 'next';
+import './globals.css';
+import Navbar from '@/components/navbar';
 
 // const geistSans = localFont({
 //   src: "public/fonts/GeistVF.woff",
@@ -15,9 +14,9 @@ import Navbar from "@/components/navbar";
 // });
 
 export const metadata: Metadata = {
-  title: "Streamfi Community",
+  title: 'Streamfi Community',
   description:
-    " A space for StreamFi users to connect, share and discuss outside the streaming space.",
+    ' A space for StreamFi users to connect, share and discuss outside the streaming space.',
 };
 
 export default function RootLayout({
@@ -28,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Navbar />
         {children}
