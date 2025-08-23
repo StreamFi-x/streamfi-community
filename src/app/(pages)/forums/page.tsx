@@ -1,80 +1,129 @@
-"use client"
+"use client";
 
-import { useState, useMemo } from "react"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Pagination } from "@/components/ui/pagination"
-import { ForumPostCard } from "@/components/forum/forum-post-card"
-import { SearchCategories } from "@/components/forum/search-categories"
-import { PeopleSuggestions } from "@/components/forum/people-suggestions"
-import { motion, AnimatePresence } from "framer-motion"
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from "@/components/ui/breadcrumb"
-import { forumPosts, getTrendingPosts, getPinnedPosts, getLatestPosts, searchPosts } from "@/lib/data/forum-posts"
+import { useState, useMemo } from "react";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Pagination } from "@/components/ui/pagination";
+import { ForumPostCard } from "@/components/forum/forum-post-card";
+import { SearchCategories } from "@/components/forum/search-categories";
+import { PeopleSuggestions } from "@/components/forum/people-suggestions";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from "@/components/ui/breadcrumb";
+import {
+  forumPosts,
+  getTrendingPosts,
+  getPinnedPosts,
+  getLatestPosts,
+  searchPosts,
+} from "@/lib/data/forum-posts";
+import AddDiscussionModal from "@/app/(pages)/forums/modal/page";
 
 export default function ForumsPage() {
-  const [currentPage, setCurrentPage] = useState(1)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-  const [activeTab, setActiveTab] = useState("trending")
-  const itemsPerPage = 15
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState("trending");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const itemsPerPage = 15;
 
   const getFilteredPosts = () => {
-    let posts = forumPosts
+    let posts = forumPosts;
 
     // Apply tab filter
     switch (activeTab) {
       case "trending":
-        posts = getTrendingPosts()
-        break
+        posts = getTrendingPosts();
+        break;
       case "pinned":
-        posts = getPinnedPosts()
-        break
+        posts = getPinnedPosts();
+        break;
       case "latest":
-        posts = getLatestPosts()
-        break
+        posts = getLatestPosts();
+        break;
       default:
-        posts = forumPosts
+        posts = forumPosts;
     }
 
     // Apply search filter
     if (searchQuery) {
-      posts = searchPosts(searchQuery)
+      posts = searchPosts(searchQuery);
     }
 
     // Apply category filter
     if (selectedCategories.length > 0) {
-      posts = posts.filter((post) => selectedCategories.some((category) => post.categories.includes(category)))
+      posts = posts.filter((post) =>
+        selectedCategories.some((category) =>
+          post.categories.includes(category)
+        )
+      );
     }
 
-    return posts
-  }
+    return posts;
+  };
 
-  const filteredPosts = useMemo(() => getFilteredPosts(), [searchQuery, selectedCategories, activeTab])
-  const totalPages = Math.ceil(filteredPosts.length / itemsPerPage)
-  const paginatedPosts = filteredPosts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+  const filteredPosts = useMemo(
+    () => getFilteredPosts(),
+    [searchQuery, selectedCategories, activeTab]
+  );
+  const totalPages = Math.ceil(filteredPosts.length / itemsPerPage);
+  const paginatedPosts = filteredPosts.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const handleSearch = (query: string) => {
-    setSearchQuery(query)
-    setCurrentPage(1) // Reset to first page when searching
-  }
+    setSearchQuery(query);
+    setCurrentPage(1); // Reset to first page when searching
+  };
 
   const handleCategorySelect = (category: string) => {
     setSelectedCategories((prev) =>
-      prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category],
-    )
-    setCurrentPage(1) // Reset to first page when filtering
-  }
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category]
+    );
+    setCurrentPage(1); // Reset to first page when filtering
+  };
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page)
+    setCurrentPage(page);
     // Scroll to top when page changes
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const handleTabChange = (tab: string) => {
-    setActiveTab(tab)
-    setCurrentPage(1) // Reset to first page when changing tabs
-  }
+    setActiveTab(tab);
+    setCurrentPage(1); // Reset to first page when changing tabs
+  };
+
+  // Modal handlers
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleDiscussionSubmit = (data: {
+    title: string;
+    category: string;
+    details: string;
+  }) => {
+    // Here you would typically submit the discussion to your API
+    console.log("New discussion submitted:", data);
+
+    // You could add the new discussion to your local state or refetch data
+    // For now, we'll just show a success message in console
+    console.log("Discussion created successfully!");
+
+    // Optional: Show a toast notification or redirect to the new discussion
+  };
 
   return (
     <div className="min-h-screen bg-black">
@@ -89,7 +138,9 @@ export default function ForumsPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbPage className="text-gray-400">Community Discussions</BreadcrumbPage>
+                <BreadcrumbPage className="text-gray-400">
+                  Community Discussions
+                </BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -102,13 +153,22 @@ export default function ForumsPage() {
           transition={{ duration: 0.3, delay: 0.1 }}
         >
           <h1 className="text-white text-3xl font-bold">Forums</h1>
-          <Button className="bg-purple-600 hover:bg-purple-700 text-white">Add Discussion</Button>
+          <Button
+            className="bg-purple-600 hover:bg-purple-700 text-white"
+            onClick={openModal}
+          >
+            Add Discussion
+          </Button>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-3">
-            <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
+            <Tabs
+              value={activeTab}
+              onValueChange={handleTabChange}
+              className="w-full"
+            >
               <TabsList className="bg-transparent border-b border-gray-800 rounded-none h-auto p-0 mb-6">
                 <TabsTrigger
                   value="trending"
@@ -152,7 +212,11 @@ export default function ForumsPage() {
                       ))}
                     </motion.div>
                   ) : (
-                    <motion.div className="text-center py-12" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                    <motion.div
+                      className="text-center py-12"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                    >
                       <p className="text-gray-400">
                         {activeTab === "pinned"
                           ? "No pinned discussions yet."
@@ -179,11 +243,21 @@ export default function ForumsPage() {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            <SearchCategories onSearch={handleSearch} onCategorySelect={handleCategorySelect} />
+            <SearchCategories
+              onSearch={handleSearch}
+              onCategorySelect={handleCategorySelect}
+            />
             <PeopleSuggestions />
           </div>
         </div>
       </motion.div>
+
+      {/* Add Discussion Modal */}
+      <AddDiscussionModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onSubmit={handleDiscussionSubmit}
+      />
     </div>
-  )
+  );
 }
